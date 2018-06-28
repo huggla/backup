@@ -1,7 +1,7 @@
 #!/bin/sh
 cd /
 set -e +a +m +s +i -f
-. /start/includeFunctions
+. "$(/usr/bin/dirname $0)/includeFunctions"
 
 backupDir="$1"
 readEnvironmentVars
