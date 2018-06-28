@@ -1,0 +1,30 @@
+recursiveDeleteFileDuplicates(){
+   local -
+   local dir="."
+   local dirName=""
+   if [ -n "$1" ]
+   then
+      dir=$1
+   else
+      dirName="$(/usr/bin/basename "$(/bin/pwd)")"
+      if [ ! -e "$dir/latest" ] || [ "$(/usr/bin/readlink "$dir/latest")" == "./$dirName" ]
+      then
+         return
+      fi
+   fi
+   local backupFile=""
+   set +f
+   for backupFile in "$dir/"*
+   do
+      if [ -f "$backupFile" ]
+      then
+         if [ ! "$(/usr/bin/cmp "$backupFile" "../latest/$backupFile")" ]
+         then
+            /bin/rm "../latest/$backupFile"
+         fi
+      elif [ -d "$backupFile" ]
+      then
+         recursiveDeleteFileDuplicates "$backupFile"
+      fi
+   done
+}
