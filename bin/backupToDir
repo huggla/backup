@@ -5,8 +5,8 @@ set -e +a +m +s +i -f
 
 backupDir="$1"
 readEnvironmentVars
-/bin/mkdir -m 700 -p "$backupDir"
-/bin/chown $VAR_LINUX_USER "$backupDir"
+/bin/mkdir -m 770 -p "$backupDir"
+/bin/chown $VAR_LINUX_USER:root "$backupDir"
 backupCmd="$(commandForBackupToDir "$backupDir")"
 if [ -n "$backupCmd" ]
 then
