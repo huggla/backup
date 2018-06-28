@@ -3,60 +3,6 @@ cd /
 set -e +a +m +s +i -f
 . /start/includeFunctions
 
-recursiveDeleteFileDuplicates(){
-   local -
-   local dir="."
-   local dirName=""
-   if [ -n "$1" ]
-   then
-      dir=$1
-   else
-      dirName="$(/usr/bin/basename "$(/bin/pwd)")"
-      if [ ! -e "$dir/latest" ] || [ "$(/usr/bin/readlink "$dir/latest")" == "./$dirName" ]
-      then
-         return
-      fi
-   fi
-   local backupFile=""
-   set +f
-   for backupFile in "$dir/"*
-   do
-      if [ -f "$backupFile" ]
-      then
-         if [ ! "$(/usr/bin/cmp "$backupFile" "../latest/$backupFile")" ]
-         then
-            /bin/rm "../latest/$backupFile"
-         fi
-      elif [ -d "$backupFile" ]
-      then
-         recursiveDeleteFileDuplicates "$backupFile"
-      fi
-   done
-}
-
-linkDirAsLatest(){
-   local backupDir=$1
-   cd "$backupDir/.."
-   rm -f ./latest
-   /bin/ln -s "./$(/usr/bin/basename "$backupDir")" "./latest"
-}
-
-[ $(type -t readEnvironmentVars) ] || . /start/functions/readEnvironmentVars
-[ $(type -t runBinCmdAsLinuxUser) ] || . /start/functions/runBinCmdAsLinuxUser
-[ $(type -t execCmdAsLinuxUser) ] || . /start/functions/execCmdAsLinuxUser
-[ $(type -t trim) ] || . /start/functions/trim
-. "$(/usr/bin/dirname $0)/commandForBackupToDir"
-
-for function in /start/functions/*
-do
-   if [ -f "$function" ] && [ ! $(type -t $(/usr/bin/basename "$function")) ]
-   then
-      . "$function"
-   fi
-done
-set -f
-#-----------------------------------------------------------------------------
-
 backupDir="$1"
 readEnvironmentVars
 /bin/mkdir -m 700 -p "$backupDir"
