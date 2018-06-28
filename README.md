@@ -1,2 +1,2 @@
-# backup
+# backup-alpine
 Backup base image.
