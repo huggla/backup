@@ -7,6 +7,7 @@ backupDir="$1"
 readEnvironmentVars
 /bin/mkdir -m 770 -p "$backupDir"
 /bin/chown $VAR_LINUX_USER:root "$backupDir"
+/bin/touch "$backupDir/$(/usr/bin/basename "$backupDir")"
 backupCmd="$(commandForBackupToDir "$backupDir")"
 if [ -n "$backupCmd" ]
 then
