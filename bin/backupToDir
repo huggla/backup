@@ -4,20 +4,24 @@ set -e +a +m +s +i -f
 . "$(/usr/bin/dirname $0)/includeFunctions"
 
 backupDir="$1"
+backupDirName="$(/usr/bin/basename "$backupDir")"
 readEnvironmentVars
 /bin/mkdir -m 770 -p "$backupDir"
 /bin/chown $VAR_LINUX_USER:root "$backupDir"
-/bin/touch "$backupDir/$(/usr/bin/basename "$backupDir")"
+/bin/touch "$backupDir/$backupDirName"
 backupCmd="$(commandForBackupToDir "$backupDir")"
 if [ -n "$backupCmd" ]
 then
    set +f
    eval "$backupCmd"
    set -f
-   if [ "$VAR_DELETE_DUPLICATES" == "yes" ] && [ -d "$backupDir/../latest" ]
+   if [ "$VAR_DELETE_DUPLICATES" == "yes" ]
    then
-      cd "$backupDir"
-      recursiveDeleteFileDuplicates
+      latestDir="$(/usr/bin/dirname "$backupDir")/latest"
+      if [ -e "$latestDir" ] && [ "$(/usr/bin/readlink "$latestDir")" != "./$backupDirName" ]
+      then
+         recursiveDeleteFileDuplicates $backupDir $latestDir
+      fi
    fi
    linkDirAsLatest "$backupDir"
 fi
