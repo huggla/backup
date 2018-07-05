@@ -14,18 +14,25 @@ recursiveDeleteFileDuplicates(){
    fi
    local file=""
    local fileName=""
+   local newRelPath=""
    set +f
    for file in "$backupDir/$relPath"*
    do
       fileName="$(/usr/bin/basename "$file")"
+      if [ -z "$relPath" ]
+      then
+         newRelPath=$fileName
+      else
+         newRelPath="$relPath/$fileName"
+      fi
       if [ -d "$file" ] && [ "$file" != "." ] && [ "$file" != ".." ]
       then
-         recursiveDeleteFileDuplicates "$relPath/$fileName" $backupDir $latestDir
-      elif [ -f "$file" ] && [ -f "$latestDir/$relPath/$fileName" ]
+         recursiveDeleteFileDuplicates $newRelPath $backupDir $latestDir
+      elif [ -f "$file" ] && [ -f "$latestDir/$newRelPath" ]
       then
-         if [ ! "$(/usr/bin/cmp "$file" "$latestDir/$relPath/$fileName")" ]
+         if [ ! "$(/usr/bin/cmp "$file" "$latestDir/$newRelPath")" ]
          then
-            /bin/rm "$latestDir/$relPath/$fileName"
+            /bin/rm "$latestDir/$newRelPath"
          fi
       fi
    done
