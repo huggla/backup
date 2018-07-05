@@ -12,11 +12,18 @@ recursiveDeleteFileDuplicates(){
       backupDir=$2
       latestDir=$3
    fi
+   local dir=""
    local file=""
    local fileName=""
    local newRelPath=""
+   if [ -z "$relPath" ]
+   then
+      dir=$backupDir
+   else
+      dir="$backupDir/$relPath"
+   fi
    set +f
-   for file in "$backupDir/$relPath"*
+   for file in "$dir/"*
    do
       fileName="$(/usr/bin/basename "$file")"
       if [ -z "$relPath" ]
