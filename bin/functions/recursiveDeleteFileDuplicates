@@ -1,31 +1,32 @@
 recursiveDeleteFileDuplicates(){
    local -
-   local dir=""
-   local dirName=""
-   if [ -n "$1" ]
+   local relPath=""
+   local backupDir=""
+   local latestDir=""
+   if [ -z "$3" ]
    then
-      dir=$1
+      backupDir=$1
+      latestDir=$2
    else
-      dir="$(/bin/pwd)"
-      dirName="$(/usr/bin/basename "$dir")"
+      relPath=$1
+      backupDir=$2
+      latestDir=$3
    fi
-   if [ ! -e "../latest" ] || [ "$(/usr/bin/readlink "../latest")" == "./$dirName" ]
-   then
-      return
-   fi
-   local backupFile=""
+   local file=""
+   local fileName=""
    set +f
-   for backupFile in "$dir/"*
+   for file in "$backupDir/$relPath"*
    do
-      if [ -f "$backupFile" ] && [ -f "../latest/$backupFile" ]
+      fileName="$(/usr/bin/basename "$file")"
+      if [ -d "$file" ] && [ "$file" != "." ] && [ "$file" != ".." ]
       then
-         if [ ! "$(/usr/bin/cmp "$backupFile" "../latest/$backupFile")" ]
+         recursiveDeleteFileDuplicates "$relPath/$fileName" $backupDir $latestDir
+      elif [ -f "$file" ] && [ -f "$latestDir/$relPath/$fileName" ]
+      then
+         if [ ! "$(/usr/bin/cmp "$file" "$latestDir/$relPath/$fileName")" ]
          then
-            /bin/rm "../latest/$backupFile"
+            /bin/rm "$latestDir/$relPath/$fileName"
          fi
-      elif [ -d "$backupFile" ]
-      then
-         recursiveDeleteFileDuplicates "$backupFile"
       fi
    done
 }
