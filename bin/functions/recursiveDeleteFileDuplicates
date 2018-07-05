@@ -17,7 +17,7 @@ recursiveDeleteFileDuplicates(){
    set +f
    for backupFile in "$dir/"*
    do
-      if [ -f "$backupFile" ]
+      if [ -f "$backupFile" ] && [ -f "../latest/$backupFile" ]
       then
          if [ ! "$(/usr/bin/cmp "$backupFile" "../latest/$backupFile")" ]
          then
