@@ -1,9 +1,0 @@
-deleteFileDuplicates(){
-   local dir="$(/bin/pwd)"
-   local dirName="$(/usr/bin/basename "$dir")"
-   local parentDir="$(/usr/bin/dirname "$dir")"
-   if [ -e "$parentDir/latest" ] && [ "$(/usr/bin/readlink "$parentDir/latest")" != "./$dirName" ]
-   then
-      recursiveDeleteFileDuplicates $dir $parentDir
-   fi
-}
