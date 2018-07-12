@@ -1,9 +1,6 @@
 FROM huggla/alpine as stage1
 
-USER root
-
-COPY ./start /start
-COPY ./bin /usr/local/bin
+COPY ./root /
 
 RUN ln -s /start/includeFunctions /usr/local/bin/ \
  && ln -s /start/functions/readEnvironmentVars /start/functions/runBinCmdAsLinuxUser /start/functions/execCmdAsLinuxUser /start/functions/trim /usr/local/bin/functions/
