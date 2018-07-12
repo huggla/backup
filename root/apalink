@@ -1,0 +1,10 @@
+#!/bin/sh
+var="FOREIGN_SERVER_USER_PASSWORD_"
+case $var in
+(*PASSWORD)
+   echo hej
+;;
+(*)
+   echo apa
+;;esac
+
