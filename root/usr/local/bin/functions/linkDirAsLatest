@@ -1,6 +1,0 @@
-linkDirAsLatest(){
-   local backupDir=$1
-   cd "$backupDir/.."
-   rm -f ./latest
-   /bin/ln -s "./$(/usr/bin/basename "$backupDir")" "./latest"
-}
