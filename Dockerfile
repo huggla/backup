@@ -1,7 +1,5 @@
 FROM huggla/alpine as stage1
 
-USER root
-
 COPY ./rootfs /rootfs
 COPY ./rootfs /
 
