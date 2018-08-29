@@ -1,2 +1,2 @@
 # backup-alpine
-Backup base image.
+Base image used by huggla/postgres-backup and huggla/mariadb-backup.
