@@ -1,7 +1,8 @@
 FROM huggla/alpine as stage1
+FROM huggla/alpine-official as stage2
 
+COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
-COPY ./rootfs /
 
 RUN ln -s /start/includeFunctions /usr/local/bin/ \
  && mv /usr/local/bin/includeFunctions /rootfs/usr/local/bin/ \
@@ -10,7 +11,7 @@ RUN ln -s /start/includeFunctions /usr/local/bin/ \
 
 FROM huggla/alpine
 
-COPY --from=stage1 /rootfs /
+COPY --from=stage2 /rootfs /
 
 ENV VAR_FINAL_COMMAND="/usr/sbin/crond -f -d 8" \
     VAR_FINAL_CMD_AS_ROOT="yes" \
