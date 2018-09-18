@@ -1,4 +1,4 @@
-FROM huggla/alpine-slim:20180907 as stage1
+FROM huggla/alpine-slim:20180907-edge as stage1
 
 COPY ./rootfs /rootfs
 
