@@ -1,18 +1,16 @@
-FROM huggla/alpine as stage1
-FROM huggla/alpine-official as stage2
+FROM huggla/alpine-slim:20180907 as stage1
 
-COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
 
-RUN mkdir -p /usr/local/bin/functions \
- && ln -s /start/includeFunctions /usr/local/bin/ \
- && mv /usr/local/bin/includeFunctions /rootfs/usr/local/bin/ \
- && ln -s /start/functions/readEnvironmentVars /start/functions/runBinCmdAsLinuxUser /start/functions/execCmdAsLinuxUser /start/functions/trim /usr/local/bin/functions/ \
- && mv /usr/local/bin/functions/readEnvironmentVars /usr/local/bin/functions/runBinCmdAsLinuxUser /usr/local/bin/functions/execCmdAsLinuxUser /usr/local/bin/functions/trim /rootfs/usr/local/bin/functions/
+RUN mkdir -p /rootfs/usr/local/bin/functions \
+ && cd /rootfs/usr/local/bin \
+ && ln -s ../../../start/includeFunctions ./ \
+ && cd cd /rootfs/usr/local/bin/functions \
+ && ln -s ../../../../start/functions/readEnvironmentVars ../../../../start/functions/runBinCmdAsLinuxUser ../../../../start/functions/execCmdAsLinuxUser ../../../../start/functions/trim ./
 
-FROM huggla/alpine
+FROM huggla/base:20180907-edge
 
-COPY --from=stage2 /rootfs /
+COPY --from=stage1 /rootfs /
 
 ENV VAR_FINAL_COMMAND="/usr/sbin/crond -f -d 8" \
     VAR_FINAL_CMD_AS_ROOT="yes" \
