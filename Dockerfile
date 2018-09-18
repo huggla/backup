@@ -5,7 +5,7 @@ COPY ./rootfs /rootfs
 RUN mkdir -p /rootfs/usr/local/bin/functions \
  && cd /rootfs/usr/local/bin \
  && ln -s ../../../start/includeFunctions ./ \
- && cd cd /rootfs/usr/local/bin/functions \
+ && cd /rootfs/usr/local/bin/functions \
  && ln -s ../../../../start/functions/readEnvironmentVars ../../../../start/functions/runBinCmdAsLinuxUser ../../../../start/functions/execCmdAsLinuxUser ../../../../start/functions/trim ./
 
 FROM huggla/base:20180907-edge
