@@ -5,6 +5,7 @@
 # VAR_*
 # All functions in /start/functions
 
+finalUser="root"
 if [ "$isFirstRun" == "true" ]
 then
    writeCrontab
