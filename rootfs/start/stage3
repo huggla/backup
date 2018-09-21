@@ -8,6 +8,6 @@
 finalUser="root"
 if [ "$isFirstRun" == "true" ]
 then
-   /bin/sed -i 's|root:x:0:0:root:/dev/null:/sbin/nologin|root:x:0:0:root:/dev/null:/bin/false|' /etc/passwd
+   /bin/sed -i 's|root:x:0:0:root:/dev/null:/sbin/nologin|root:x:0:0:root:/dev/null:/bin/sh|' /etc/passwd
    writeCrontab
 fi
