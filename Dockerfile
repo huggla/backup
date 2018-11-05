@@ -1,17 +1,21 @@
-FROM huggla/alpine-slim:20180921-edge as stage1
+ARG TAG="20181101-edge"
+ARG MAKEDIRS="/var/spool/cron/crontabs"
+ARG EXPOSEFUNCTIONS="readEnvironmentVars runBinCmdAsLinuxUser execCmdAsLinuxUser trim"
 
-COPY ./rootfs /rootfs
-
-RUN mkdir -p /rootfs/usr/local/bin/functions /rootfs/var/spool/cron/crontabs \
- && cd /rootfs/usr/local/bin \
- && ln -s ../../../start/includeFunctions ./ \
- && cd /rootfs/usr/local/bin/functions \
- && ln -s ../../../../start/functions/readEnvironmentVars ../../../../start/functions/runBinCmdAsLinuxUser ../../../../start/functions/execCmdAsLinuxUser ../../../../start/functions/trim ./
-
-FROM huggla/base:20180921-edge
-
-COPY --from=stage1 /rootfs /
+#---------------Don't edit----------------
+FROM ${CONTENTIMAGE1:-scratch} as content1
+FROM ${CONTENTIMAGE2:-scratch} as content2
+FROM ${BASEIMAGE:-huggla/base:$TAG} as base
+FROM huggla/build:$TAG as build
+FROM ${BASEIMAGE:-huggla/base:$TAG} as image
+COPY --from=build /imagefs /
+#-----------------------------------------
 
 ENV VAR_FINAL_COMMAND="/usr/sbin/crond -f -d 8" \
     VAR_BACKUP_DIR="/backup" \
     VAR_DELETE_DUPLICATES="yes"
+
+#---------------Don't edit----------------
+USER starter
+ONBUILD USER root
+#-----------------------------------------
