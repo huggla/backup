@@ -1,4 +1,4 @@
-ARG TAG="20181108-edge"
+ARG TAG="20181113-edge"
 ARG MAKEDIRS="/var/spool/cron/crontabs"
 ARG EXPOSEFUNCTIONS="readEnvironmentVars runBinCmdAsLinuxUser execCmdAsLinuxUser trim"
 
