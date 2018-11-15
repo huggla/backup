@@ -13,7 +13,8 @@ COPY --from=build /imagefs /
 
 ENV VAR_FINAL_COMMAND="/usr/sbin/crond -f -d 8" \
     VAR_BACKUP_DIR="/backup" \
-    VAR_DELETE_DUPLICATES="yes"
+    VAR_DELETE_DUPLICATES="yes" \
+    VAR_KEEP_CAPS="cap_setuid"
 
 #---------------Don't edit----------------
 USER starter
