@@ -1,4 +1,4 @@
-ARG TAG="20190129"
+ARG TAG="20190206"
 ARG MAKEDIRS="/var/spool/cron/crontabs"
 ARG EXPOSEFUNCTIONS="readEnvironmentVars runBinCmdAsLinuxUser execCmdAsLinuxUser trim"
 
@@ -24,7 +24,6 @@ ARG EXECUTABLES
 ARG STARTUPEXECUTABLES
 ARG EXPOSEFUNCTIONS
 COPY --from=build /imagefs /
-ENV VAR_STARTUPEXECUTABLES="$STARTUPEXECUTABLES"
 #---------------------------------------------
 
 ENV VAR_FINAL_COMMAND="/usr/sbin/crond -f -d 8" \
