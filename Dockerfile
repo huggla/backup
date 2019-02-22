@@ -1,4 +1,4 @@
-ARG TAG="20190206"
+ARG TAG="20190220"
 ARG MAKEDIRS="/var/spool/cron/crontabs"
 ARG EXPOSEFUNCTIONS="readEnvironmentVars runBinCmdAsLinuxUser execCmdAsLinuxUser trim"
 
@@ -23,7 +23,11 @@ ARG MAKEFILES
 ARG EXECUTABLES
 ARG STARTUPEXECUTABLES
 ARG EXPOSEFUNCTIONS
+ARG GID0WRITABLES
+ARG GID0WRITABLESRECURSIVE
+ARG LINUXUSEROWNED
 COPY --from=build /imagefs /
+RUN [ -n "$LINUXUSEROWNED" ] && chown 102 $LINUXUSEROWNED || true
 #---------------------------------------------
 
 ENV VAR_FINAL_COMMAND="/usr/sbin/crond -f -d 8" \
