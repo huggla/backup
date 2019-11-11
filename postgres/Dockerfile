@@ -8,10 +8,9 @@ ARG IMAGETYPE="application"
 ARG BASEIMAGE="huggla/backup-alpine:base-$TAG"
 ARG RUNDEPS="libpq libldap"
 ARG BUILDDEPS="postgresql-client"
-ARG MAKEDIRS="/usr/bin /usr/lib"
 ARG BUILDCMDS=\
-"   cp -a /usr/bin/pg_dump* /imagefs/usr/bin/ "\
-"&& cp -a /usr/lib/libsasl2* /imagefs/usr/lib/"
+"   cp -a /usr/bin/pg_dump* /finalfs/usr/bin/ "\
+"&& cp -a /usr/lib/libsasl2* /finalfs/usr/lib/"
 ARG EXECUTABLES="/usr/bin/pg_dumpall /usr/bin/pg_dump"
 # ARGs (can be passed to Build/Final) </END>
 
