@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /
-set -e +a +m +s +i -f
+set -ef +am
 . "$(/usr/bin/dirname $0)/includeFunctions"
 
 backupDir="$1"
