@@ -1,2 +1,2 @@
-# backup-alpine
-Base image used by huggla/postgres-backup and huggla/mariadb-backup.
+# sam-backup
+Secure and Minimal images for backups.
