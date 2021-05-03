@@ -1,7 +1,5 @@
-# backup-alpine:postgres
+# sam-backup:postgresql
 A tiny and simple Docker image for backing up Postgresql.
-
-20181204-20190220: Pg_dump and pg_dumpall from Postgresql 11.1, Apline Edge.
 
 ## Environment variables
 ### pre-set runtime variables
